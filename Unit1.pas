@@ -12,6 +12,12 @@ type
 
     TTokenKind = (num, minus, plus, separator, unknown);
 
+    //Class that represents a word in our input
+    //Word can be
+    // 123 - this is one word
+    // . - this is another word
+    // + - this is another word
+    // +- this is 2 words which are + and -
     TToken = class
         Start: integer;
         Length: integer;
@@ -93,6 +99,13 @@ begin
     tokens := TList<TToken>.Create;
     i := 1;
     isCurrentCharDigit := false;
+    //Parse words from input
+    //Words are
+    //123
+    //+
+    //-
+    //.
+    // Any other non-digit symbol will be considered different(unkown) word
     while i <= input.Length do
     begin
         j := i;
@@ -101,6 +114,7 @@ begin
         tokenLength := 0;
         // if we encountered number and the next symbol is number as well
         // then we continue until next symbol is not number
+        //otherwise we have not a number so we take that as one word
         repeat
             tokenContent := tokenContent + input[j];
             isCurrentCharDigit := input[j].IsDigit();
